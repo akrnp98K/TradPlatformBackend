@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaojingye.wechatbackend.component.mapper.CategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaojingye.wechatbackend.entity.pojo.Category">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="categoryName" column="category_name" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,category_name,create_time
+    </sql>
+    <insert id="addCategory" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO t_category
+        VALUES (#{newCategory.id}, #{newCategory.categoryName}, #{newCategory.icon},#{newCategory.level},  #{newCategory.parentCategoryId}, #{newCategory.createTime});
+    </insert>
+    <update id="updateCategory">
+        UPDATE t_category
+        SET
+        <if test="newCategory.categoryName != null">
+            category_name = #{newCategory.categoryName},
+        </if>
+        <if test="newCategory.parentCategoryId != null">
+            parent_category_id = #{newCategory.parentCategoryId},
+            level = #{newCategory.level},
+        </if>
+        <if test="newCategory.icon != null">
+            icon = #{newCategory.icon}
+        </if>
+        WHERE id = #{newCategory.id}
+    </update>
+    <select id="getCategoryByName" resultType="com.xiaojingye.wechatbackend.entity.pojo.Category">
+        SELECT * FROM t_category WHERE category_name LIKE #{categoryName};
+    </select>
+
+    <select id="getCategoryList" resultType="com.xiaojingye.wechatbackend.entity.pojo.Category">
+        SELECT * FROM t_category
+        <if test="startPage  != null and endPage != null">
+            LIMIT #{startPage}, #{endPage}
+        </if>
+    </select>
+    <select id="getOneByIdCategory" resultType="com.xiaojingye.wechatbackend.entity.pojo.Category">
+        SELECT * FROM t_category WHERE id LIKE #{id};
+    </select>
+</mapper>
