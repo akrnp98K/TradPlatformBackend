@@ -1,5 +1,6 @@
 package com.xiaojingye.wechatbackend.component.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaojingye.wechatbackend.entity.pojo.Category;
 import com.xiaojingye.wechatbackend.component.service.CategoryService;
@@ -36,10 +37,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>
     }
 
     @Override
-    public List<Category> getCategoryList(Integer startPage, Integer endPage) {
-        return categoryMapper.getCategoryList(startPage,endPage);
+    public Page<Category> getCategoryList(Integer startPage, Integer endPage) {
+        Page<Category> page = new Page<>(startPage,endPage);
+        categoryMapper.selectPage(page, null);
+        return page;
     }
-    
+    @Override
+    public List<Category> getCategoryList() {
+        return categoryMapper.getCategoryList(null, null);
+    }
     @Override
     public int updateCategory(Category category) {
         return categoryMapper.updateCategory(category);

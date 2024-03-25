@@ -1,8 +1,8 @@
 package com.xiaojingye.wechatbackend.component.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaojingye.wechatbackend.entity.pojo.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,9 +16,11 @@ public interface CategoryService extends IService<Category> {
 
     Category getCategoryByCateName(String categoryName);
 
-    List<Category> getCategoryList(Integer startPage,Integer endPage);
+    Page<Category> getCategoryList(Integer startPage, Integer endPage);
 
     Category getCategoryById(String id);
+    
+    List<Category> getCategoryList();
     
     int updateCategory(Category category);
 }

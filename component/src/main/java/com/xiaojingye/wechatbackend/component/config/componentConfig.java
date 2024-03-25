@@ -1,9 +1,9 @@
-package com.xiaojingye.wechatbackend.entity.config;
-
+package com.xiaojingye.wechatbackend.component.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class EntityConfiguration {
+@ComponentScan("com.xiaojingye.wechatbackend.entity")
+public class componentConfig {
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaojingye.wechatbackend.component.mapper.CartMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaojingye.wechatbackend.entity.pojo.Cart">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="commodityId" column="commodity_id" jdbcType="VARCHAR"/>
+            <result property="quantity" column="quantity" jdbcType="INTEGER"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,commodity_id,
+        quanitiy,price,create_time
+    </sql>
+
+    <insert id="insertCart">
+        INSERT INTO t_cart (id, user_id, commodity_id, quantity, price, create_time)
+        VALUES (#{cart.id}, #{cart.userId}, #{cart.commodityId}, #{cart.quantity}, #{cart.price}, #{cart.createTime})
+    </insert>
+    <delete id="removeItemById">
+        DELETE FROM t_cart
+        WHERE id = #{id};
+    </delete>
+    <select id="getCartAllItemByUserID" resultType="com.xiaojingye.wechatbackend.entity.pojo.Cart">
+        SELECT * FROM t_cart
+        WHERE user_id = #{userId};
+    </select>
+    <select id="getCartAllItemById" resultType="com.xiaojingye.wechatbackend.entity.pojo.Cart">
+        SELECT * FROM t_cart
+        WHERE id = #{id}
+    </select>
+</mapper>

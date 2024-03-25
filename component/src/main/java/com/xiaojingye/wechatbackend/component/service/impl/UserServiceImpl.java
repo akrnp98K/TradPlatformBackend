@@ -21,7 +21,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public User getUser(String username) {
         return userMapper.getUser(username);
     }
-
+    
+    @Override
+    public User getUserById(Integer id) {
+        User user = userMapper.getUserById(id);
+        if (user != null) {
+            user.setPassword("");
+        }
+        return user;
+    }
 }
 
 

@@ -19,4 +19,52 @@
         items_quantity,phone_number,location,
         thumbnail
     </sql>
+    <insert id="insertCommodity">
+        INSERT INTO t_commodity (id, category_id, publisher_id, commodity_name, price, items_quantity, phone_number,
+                                 location, thumbnail, product_description, create_time)
+        VALUES (#{commodity.id},
+                #{commodity.categoryId},
+                #{commodity.publisherId},
+                #{commodity.commodityName},
+                #{commodity.price},
+                #{commodity.itemsQuantity},
+                #{commodity.phoneNumber},
+                #{commodity.location},
+                #{commodity.thumbnail},
+                #{commodity.productDescription},
+                #{commodity.createTime})
+    </insert>
+    <update id="updateCommodity" parameterType="com.xiaojingye.wechatbackend.entity.pojo.Commodity">
+        UPDATE t_commodity
+        <set>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="commodityName != null">
+                commodity_name = #{commodityName},
+            </if>
+            <if test="itemsQuantity != null">
+                items_quantity = #{itemsQuantity},
+            </if>
+            <if test="thumbnail != null">
+                thumbnail = #{thumbnail},
+            </if>
+            <if test="phoneNumber != null">
+                phone_number = #{phoneNumber},
+            </if>
+            <if test="productionDescription != null">
+                production_description = #{productionDescription},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="removeCommodity">
+        DELETE FROM t_commodity
+        WHERE id = #{id};
+    </delete>
+    <select id="getCommodityById" resultType="com.xiaojingye.wechatbackend.entity.pojo.Commodity">
+        SELECT * FROM t_commodity WHERE id = #{Id};
+    </select>
+
+
 </mapper>

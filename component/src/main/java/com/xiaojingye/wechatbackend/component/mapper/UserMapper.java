@@ -3,6 +3,7 @@ package com.xiaojingye.wechatbackend.component.mapper;
 import com.xiaojingye.wechatbackend.entity.pojo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
     User getUser(String account);
+    
+    User getUserById(@Param("id") Integer id);
 }
 
 

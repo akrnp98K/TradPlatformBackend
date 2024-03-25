@@ -1,7 +1,9 @@
 package com.xiaojingye.wechatbackend.component.service;
 
-import com.xiaojingye.wechatbackend.entity.pojo.Commodity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaojingye.wechatbackend.entity.constData.CommodityRequest;
+import com.xiaojingye.wechatbackend.entity.pojo.Commodity;
 
 /**
 * @author xiaoj
@@ -9,5 +11,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2024-03-14 19:28:37
 */
 public interface CommodityService extends IService<Commodity> {
-
+    CommodityRequest insertCommodity(CommodityRequest commodityRequest);
+    
+    Integer removeCommodity(String commodityId);
+    
+    Page<Commodity> getCommodity(Integer startPage, Integer pageSize);
 }

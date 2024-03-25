@@ -20,4 +20,7 @@
     <select id="getUser" resultType="com.xiaojingye.wechatbackend.entity.pojo.User">
         SELECT * FROM t_user WHERE account = #{account};
     </select>
+    <select id="getUserById" resultType="com.xiaojingye.wechatbackend.entity.pojo.User">
+        SELECT * FROM t_user WHERE id = #{id};
+    </select>
 </mapper>

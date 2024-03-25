@@ -24,7 +24,7 @@ public class UserController {
     private UserService userService;
 
     @Operation(summary = "按照账号获取全部数据（测试）",description = "按照账号获取数据（仅用于测试-测试账号：root）")
-    @GetMapping("/getUser/{account}")
+    @GetMapping("/user/{account}")
     @ApiResponse(responseCode = "200", description = "查询到信息", content = @Content(mediaType = MediaType.JSON))
     @ApiResponse(responseCode = "404", description = "查无此人", content = @Content(mediaType = MediaType.JSON))
     public Object getUser(@PathVariable(value = "account") String account) {
@@ -35,12 +35,13 @@ public class UserController {
             responseEntity.setCode(404);
             responseEntity.setMessage("查无此人");
         }else {
+            user.password = "";
             responseEntity.setData(user);
             responseEntity.setCode(200);
             responseEntity.setMessage("OK");
         }
         return responseEntity;
     }
-
+    
 
 }

@@ -45,4 +45,6 @@
     <select id="getOneByIdCategory" resultType="com.xiaojingye.wechatbackend.entity.pojo.Category">
         SELECT * FROM t_category WHERE id LIKE #{id};
     </select>
+
+
 </mapper>

@@ -3,6 +3,7 @@ package com.xiaojingye.wechatbackend.component.mapper;
 import com.xiaojingye.wechatbackend.entity.pojo.Commodity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,7 +15,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface CommodityMapper extends BaseMapper<Commodity> {
-
+    Integer insertCommodity(@Param("commodity") Commodity commodity);
+    
+    Integer updateCommodity(@Param("newCommodity") Commodity commodity);
+    
+    Integer removeCommodity(@Param("id") String commodityId);
+    
+    Commodity getCommodityById(@Param("Id") String id);
 }
 
 

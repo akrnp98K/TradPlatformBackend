@@ -1,5 +1,6 @@
 package com.xiaojingye.wechatbackend.component.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaojingye.wechatbackend.component.service.CategoryService;
 import com.xiaojingye.wechatbackend.entity.constData.MediaType;
 import com.xiaojingye.wechatbackend.entity.constData.ResponseEntity;
@@ -44,11 +45,11 @@ public class CategoryController {
             responseEntity.setMessage("数据不能为空");
             response.setStatus(422);
         } else {
-            responseEntity = (ResponseEntity) getCategoryInfo(newCategory.categoryName);
+            responseEntity = getCategoryInfo(newCategory.categoryName);
             if (responseEntity.code == 404) {
                 newCategory.setId(UUID.randomUUID().toString());
                 // 确定分类层级并校验父类合法性
-                if (newCategory.parentCategoryId != null) {
+                if (newCategory.parentCategoryId != null && !newCategory.parentCategoryId.isEmpty()) {
                     Category parentCategory = (Category) getCategoryInfo(newCategory.parentCategoryId).data;
                     if (parentCategory == null) {
                         responseEntity.setData(newCategory);
@@ -68,6 +69,7 @@ public class CategoryController {
                 responseEntity.setData(newCategory);
                 responseEntity.setCode(200);
                 responseEntity.setMessage("Success");
+                response.setStatus(200);
             } else {
                 log.debug("分类重复");
                 responseEntity.setData(newCategory);
@@ -113,17 +115,18 @@ public class CategoryController {
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = MediaType.JSON))
     @ApiResponse(responseCode = "422", description = "参数非法", content = @Content(mediaType = MediaType.JSON))
     public Object getCategoryList(@RequestParam(value = "startPage", required = false) @Parameter(name = "startPage", description = "起始页") Integer startPage,
-                                  @RequestParam(value = "endPage", required = false) @Parameter(name = "endPage", description = "起始页") Integer endPage,
+                                  @RequestParam(value = "endPage", required = false) @Parameter(name = "endPage", description = "页大小") Integer endPage,
                                   HttpServletResponse response) {
         
         ResponseEntity responseEntity = new ResponseEntity();
-        if ((startPage != null && endPage != null) && startPage > endPage) {
-            responseEntity.setData(null);
-            responseEntity.setCode(422);
-            responseEntity.setMessage("参数非法");
-            response.setStatus(422);
+        if (((startPage != null && endPage != null) && startPage > endPage) || startPage == null || endPage == null) {
+            List<Category> categoryList = categoryService.getCategoryList();
+            responseEntity.setCode(200);
+            responseEntity.setData(categoryList);
+            responseEntity.setMessage("全量返回");
+            
         } else {
-            List<Category> categoryList = categoryService.getCategoryList(startPage, endPage);
+            Page<Category> categoryList = categoryService.getCategoryList(startPage, endPage);
             responseEntity.setData(categoryList);
             responseEntity.setCode(200);
             responseEntity.setMessage("OK");
@@ -144,7 +147,7 @@ public class CategoryController {
             responseEntity.setMessage("数据为空");
             response.setStatus(422);
         } else {
-            if (newCategory.id != null && getCategoryInfo(newCategory.id).data != null){
+            if (newCategory.id != null && getCategoryInfo(newCategory.id).data != null) {
                 newCategory.createTime = null;
                 // 计算新层级
                 if (newCategory.parentCategoryId != null && !newCategory.parentCategoryId.isEmpty()) {
@@ -153,14 +156,14 @@ public class CategoryController {
                         newCategory.setLevel(parent.level + 1);
                         newCategory.setParentCategoryId(parent.id);
                     }
-                }else {
+                } else {
                     newCategory.setLevel(1);
                     newCategory.setParentCategoryId(null);
                 }
                 int i = categoryService.updateCategory(newCategory);
                 responseEntity.setCode(200);
-                responseEntity.setMessage("更新 ==>" + i + " 条 =>" + newCategory.toString());
-            }else  {
+                responseEntity.setMessage("更新 ==>" + i + " 条 =>" + newCategory);
+            } else {
                 responseEntity.setCode(422);
                 responseEntity.setData(null);
                 responseEntity.setMessage("没有该分类的信息");
@@ -169,4 +172,6 @@ public class CategoryController {
         }
         return responseEntity;
     }
+    
+    
 }

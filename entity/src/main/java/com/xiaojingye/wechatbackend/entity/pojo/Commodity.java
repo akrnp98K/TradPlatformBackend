@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,12 +18,22 @@ public class Commodity {
     public String id;
 
     public String categoryId;
+    
+    public String publisherId;
 
     public String commodityName;
 
-    public Integer items_quantity;
+    public Integer itemsQuantity;
+    
+    public BigDecimal price;
 
     public String location;
 
     public String thumbnail;
+    
+    public String phoneNumber;
+    
+    public String productDescription;
+    
+    public Date createTime;
 }
